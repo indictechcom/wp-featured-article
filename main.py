@@ -33,10 +33,11 @@ def main():
         image = soup.find('img')
         article_details['image_url'] = image['src'] if image else None
         
-        first_link = soup.find('a', href=True)
-        article_url = first_link['href'] if first_link else None
-        if article_url.startswith("/"):
-            article_url = "https://en.wikipedia.org" + article_url
+        bold_link = soup.find('p').find('b').find('a', href=True)
+        if bold_link:
+            article_url = bold_link['href']
+            if article_url.startswith("/"):
+                article_url = "https://en.wikipedia.org" + article_url   
         article_details['article_link'] = article_url
 
         with open('featured_article.json', 'w') as f:
